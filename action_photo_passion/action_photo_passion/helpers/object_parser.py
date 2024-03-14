@@ -6,3 +6,12 @@ class ObjectParser:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize an instance of ArticleParser."""
         self.data = kwargs
+
+    def get_id(self):
+        return self.data.get("id")
+
+    def get_description(self):
+        return self.data.get("description")
+
+    def get_title(self):
+        return self.data.get("title")

@@ -9,7 +9,7 @@ class TestImageExifReaderService(unittest.TestCase):
 
     def test_exists_mock_values(self):
         self.assertTrue(
-            self.img.imageExif is not None, "The image is None !!!!"
+            self.img.exif_data is not None, "The image is None !!!!"
         )
 
     def test_mock_values_loaded(self):

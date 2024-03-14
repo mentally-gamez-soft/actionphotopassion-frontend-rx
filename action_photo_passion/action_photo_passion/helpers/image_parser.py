@@ -1,5 +1,7 @@
 """Serves as a proxy to decode the content of an image coming fron a webservice call."""
 
+from object_parser import ObjectParser
+
 mock_data = {
     "ID-image": 1,
     "title": "Almudena in Madrid",
@@ -23,12 +25,12 @@ mock_data = {
 }
 
 
-class ImageParser:
+class ImageParser(ObjectParser):
     """Tool to get all the data from an image. exifs and more."""
 
     def __init__(self, *args, **kwargs) -> None:
         """Initialize an instance of ImageParser."""
-        self.imageExif = kwargs
+        super().__init__(*args, **kwargs)
 
     def get_title_image(self):
         """Get the title of an image.
@@ -36,9 +38,7 @@ class ImageParser:
         Returns:
             str: the title of the image.
         """
-        if self.imageExif:
-            return self.imageExif.get("title", mock_data["title"])
-        return mock_data["title"]
+        return self.get_title()
 
     def get_description_image(self):
         """Get the description of an image.
@@ -46,19 +46,15 @@ class ImageParser:
         Returns:
             str: the description of the image.
         """
-        if self.imageExif:
-            return self.imageExif.get("description", mock_data["description"])
-        return mock_data["description"]
+        return self.get_description()
 
     def get_id_image(self):
         """Get the id of an image.
-
+    
         Returns:
             int: the id of the image.
         """
-        if self.imageExif:
-            return self.imageExif.get("ID-image", mock_data["ID-image"])
-        return mock_data["ID-image"]
+        return self.get_id()
 
     def get_image_url(self):
         """Get the url of an image.
@@ -66,8 +62,8 @@ class ImageParser:
         Returns:
             str: the url of the image.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "url-image-source", mock_data["url-image-source"]
             )
         return mock_data["url-image-source"]
@@ -78,8 +74,8 @@ class ImageParser:
         Returns:
             str: the exif version of the image.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "exif-version", mock_data["exif-version"]
             )
         return mock_data["exif-version"]
@@ -90,8 +86,8 @@ class ImageParser:
         Returns:
             str: the date the image was taken.
         """
-        if self.imageExif:
-            return self.imageExif.get("date-photo", mock_data["date-photo"])
+        if self.exif_data:
+            return self.exif_data.get("date-photo", mock_data["date-photo"])
         return mock_data["date-photo"]
 
     def get_exif_date_photo_edit(self):
@@ -100,8 +96,8 @@ class ImageParser:
         Returns:
             str: the date the image was edited.
         """
-        if self.imageExif:
-            return self.imageExif.get("date-edit", mock_data["date-edit"])
+        if self.exif_data:
+            return self.exif_data.get("date-edit", mock_data["date-edit"])
         return mock_data["date-edit"]
 
     def get_exif_lens_manufacturer(self):
@@ -110,8 +106,8 @@ class ImageParser:
         Returns:
             str: the manufacturer/brand of the lens.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "lens-manufacturer", mock_data["lens-manufacturer"]
             )
         return mock_data["lens-manufacturer"]
@@ -122,8 +118,8 @@ class ImageParser:
         Returns:
             str: the model or serial number of the lens.
         """
-        if self.imageExif:
-            return self.imageExif.get("lens-model", mock_data["lens-model"])
+        if self.exif_data:
+            return self.exif_data.get("lens-model", mock_data["lens-model"])
         return mock_data["lens-model"]
 
     def get_exif_exposure_time(self):
@@ -132,8 +128,8 @@ class ImageParser:
         Returns:
             str: the exposure time for an image.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "exposure-time", mock_data["exposure-time"]
             )
         return mock_data["exposure-time"]
@@ -144,8 +140,8 @@ class ImageParser:
         Returns:
             str: the iso value an image was taken.
         """
-        if self.imageExif:
-            return self.imageExif.get("iso", mock_data["iso"])
+        if self.exif_data:
+            return self.exif_data.get("iso", mock_data["iso"])
         return mock_data["iso"]
 
     def get_exif_focal_length(self):
@@ -154,8 +150,8 @@ class ImageParser:
         Returns:
             str: the focal length an image was taken.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "focal-length", mock_data["focal-length"]
             )
         return mock_data["focal-length"]
@@ -166,8 +162,8 @@ class ImageParser:
         Returns:
             str: the manufacturer/brand of the camera.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "camera-manufacturer", mock_data["camera-manufacturer"]
             )
         return mock_data["camera-manufacturer"]
@@ -178,8 +174,8 @@ class ImageParser:
         Returns:
             str: the model or serial number of the camera.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "camera-model", mock_data["camera-model"]
             )
         return mock_data["camera-model"]
@@ -190,8 +186,8 @@ class ImageParser:
         Returns:
             str: the aperture an image was taken.
         """
-        if self.imageExif:
-            return self.imageExif.get("fstop", mock_data["fstop"])
+        if self.exif_data:
+            return self.exif_data.get("fstop", mock_data["fstop"])
         return mock_data["fstop"]
 
     def get_exif_flash(self):
@@ -200,8 +196,8 @@ class ImageParser:
         Returns:
             str: indicate if the flash triggered..
         """
-        if self.imageExif:
-            return self.imageExif.get("flash", mock_data["flash"])
+        if self.exif_data:
+            return self.exif_data.get("flash", mock_data["flash"])
         return mock_data["flash"]
 
     def get_exif_gps_longitude(self):
@@ -210,8 +206,8 @@ class ImageParser:
         Returns:
             str: the longitude gps position.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "gps-longitude", mock_data["gps-longitude"]
             )
         return mock_data["gps-longitude"]
@@ -222,8 +218,8 @@ class ImageParser:
         Returns:
             str: the latitude gps position.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "gps-latitude", mock_data["gps-latitude"]
             )
         return mock_data["gps-latitude"]
@@ -234,32 +230,32 @@ class ImageParser:
         Returns:
             str: the altitude gps position.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "gps-altitude", mock_data["gps-altitude"]
             )
         return mock_data["gps-altitude"]
 
-    def get_exit_xresolution(self):
+    def get_exif_xresolution(self):
         """Get the resolution on x axis of an image.
 
         Returns:
             str: the resolution on x axis of an image.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "x-resolution", mock_data["x-resolution"]
             )
         return mock_data["x-resolution"]
 
-    def get_exit_yresolution(self):
+    def get_exif_yresolution(self):
         """Get the resolution on y axis of an image.
 
         Returns:
             str: the resolution on y axis of an image.
         """
-        if self.imageExif:
-            return self.imageExif.get(
+        if self.exif_data:
+            return self.exif_data.get(
                 "y-resolution", mock_data["y-resolution"]
             )
         return mock_data["y-resolution"]

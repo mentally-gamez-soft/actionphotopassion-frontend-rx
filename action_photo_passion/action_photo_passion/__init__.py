@@ -1,8 +1,8 @@
-from action_photo_passion.services.service_cache_image_reader import (
-    ServiceCacheImageReader,
+from action_photo_passion.services.service_cache_manager import (
+    ServiceCacheManager,
 )
 
-cache = ServiceCacheImageReader()
+cache = ServiceCacheManager()
 
 
 def get_cache_application():

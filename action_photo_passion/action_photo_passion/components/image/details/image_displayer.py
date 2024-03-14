@@ -20,4 +20,5 @@ def display_image() -> rx.Component:
         ),
         rx.text(ImageState.img_str_info["title"]),
         width="100%",
+        # test CZO github
     )

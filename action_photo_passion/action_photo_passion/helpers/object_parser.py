@@ -15,3 +15,6 @@ class ObjectParser:
 
     def get_title(self):
         return self.data.get("title")
+
+    def get_date(self):
+        return self.data.get("date-document")    

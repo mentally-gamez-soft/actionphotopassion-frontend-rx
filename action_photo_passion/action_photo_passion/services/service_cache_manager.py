@@ -1,6 +1,6 @@
 """Defines an abstract manager that will handle all the available caches of the application."""
 
-from action_photo_passion.action_photo_passion.helpers.object_parser import (
+from action_photo_passion.helpers.object_parser import (
     ObjectParser,
 )
 
@@ -16,9 +16,19 @@ class ServiceCacheManager:
         Args:
             cache_key (str): The symbolic name of the cache to track.
         """
-        self.cache[cache_key] = []
+        if not self.__retrieve_cache__(cache_key=cache_key):
+            self.cache[cache_key] = []
 
-    def __retrieve_cache_value__(self, cache_key: str) -> list:
+    def delete_target_cache_from_cache_inventory(self, cache_key: str):
+        """Delete a specified cache to the existing list of already defined caches.
+
+        Args:
+            cache_key (str): The symbolic name of the cache to freed from tracking.
+        """
+        if self.__retrieve_cache__(cache_key=cache_key) is not None:
+            del self.cache[cache_key]
+            
+    def __retrieve_cache__(self, cache_key: str) -> list:
         """Get all the cached elements a specific targeted cache.
 
         Args:
@@ -39,7 +49,7 @@ class ServiceCacheManager:
         Returns:
             dict: status (bool) and an instance of objectParser.
         """
-        targeted_cache = self.__retrieve_cache_value__(cache_key)
+        targeted_cache = self.__retrieve_cache__(cache_key)
 
         if targeted_cache:
             element = [obj for obj in targeted_cache if obj.get_id() == id]
@@ -58,7 +68,7 @@ class ServiceCacheManager:
         Returns:
             bool: True if the object exists in cache.
         """
-        targeted_cache = self.__retrieve_cache_value__(cache_key)
+        targeted_cache = self.__retrieve_cache__(cache_key)
 
         if targeted_cache:
             element = [
@@ -67,7 +77,7 @@ class ServiceCacheManager:
                 if obj.get_id() == obj_reader.get_id()
             ]
             return len(element) > 0
-        return True
+        return False
 
     def add_to_cache(self, cache_key: str, obj_reader: ObjectParser):
         """Add an object to the specified cache.
@@ -92,3 +102,19 @@ class ServiceCacheManager:
         res = self.__exists_id_in_cache__(cache_key, obj_id)
         if res["status"]:
             return res["obj"]
+
+    def __repr__(self):
+        return "cache -> {}".format(self.cache)
+
+
+sample_cache = [
+    {"image_cache":[
+        {"id":1},{"id":2},{"id":3},{"id":4},
+    ]},
+    {"menu_cache":[
+        {"id":1},{"id":2},{"id":3},{"id":4},
+    ]},
+    {"article_cache":[
+        {"id":1},{"id":2},{"id":3},{"id":4},
+    ]},
+]

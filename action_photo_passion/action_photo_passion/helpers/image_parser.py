@@ -1,9 +1,9 @@
 """Serves as a proxy to decode the content of an image coming fron a webservice call."""
 
-from object_parser import ObjectParser
+from action_photo_passion.helpers.object_parser import ObjectParser
 
 mock_data = {
-    "ID-image": 1,
+    "id": 1,
     "title": "Almudena in Madrid",
     "description": "A superb church in the heart of Madrid",
     "gps-altitude": 0.1254,
@@ -11,7 +11,7 @@ mock_data = {
     "flash": 1,
     "gps-longitude": 1.1245,
     "gps-latitude": 0.8754,
-    "date-photo": "2024-01-01 10:02:09",
+    "date-document": "2024-01-01 10:02:09",
     "date-edit": "2024-01-05 18:35:09",
     "camera-model": "Sony A58 SLTA58",
     "camera-manufacturer": "Sony",
@@ -62,11 +62,9 @@ class ImageParser(ObjectParser):
         Returns:
             str: the url of the image.
         """
-        if self.exif_data:
-            return self.exif_data.get(
-                "url-image-source", mock_data["url-image-source"]
-            )
-        return mock_data["url-image-source"]
+        return self.data.get(
+            "url-image-source", mock_data["url-image-source"]
+        )
 
     def get_exif_version(self):
         """Get the exif version of an image.
@@ -74,11 +72,9 @@ class ImageParser(ObjectParser):
         Returns:
             str: the exif version of the image.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "exif-version", mock_data["exif-version"]
             )
-        return mock_data["exif-version"]
 
     def get_exif_date_photo_taken(self):
         """Get the date an image was taken.
@@ -86,180 +82,148 @@ class ImageParser(ObjectParser):
         Returns:
             str: the date the image was taken.
         """
-        if self.exif_data:
-            return self.exif_data.get("date-photo", mock_data["date-photo"])
-        return mock_data["date-photo"]
-
+        return self.data.get_date()
+        
     def get_exif_date_photo_edit(self):
         """Get the date an image was edited.
 
         Returns:
             str: the date the image was edited.
         """
-        if self.exif_data:
-            return self.exif_data.get("date-edit", mock_data["date-edit"])
-        return mock_data["date-edit"]
-
+        return self.data.get("date-edit", mock_data["date-edit"])
+        
     def get_exif_lens_manufacturer(self):
         """Get the manufacturer/brand of the lens.
 
         Returns:
             str: the manufacturer/brand of the lens.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "lens-manufacturer", mock_data["lens-manufacturer"]
             )
-        return mock_data["lens-manufacturer"]
-
+        
     def get_exif_lens_model(self):
         """Get the model or serial number of the lens.
 
         Returns:
             str: the model or serial number of the lens.
         """
-        if self.exif_data:
-            return self.exif_data.get("lens-model", mock_data["lens-model"])
-        return mock_data["lens-model"]
-
+        return self.data.get("lens-model", mock_data["lens-model"])
+        
     def get_exif_exposure_time(self):
         """Get the exposure time for an image.
 
         Returns:
             str: the exposure time for an image.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "exposure-time", mock_data["exposure-time"]
             )
-        return mock_data["exposure-time"]
-
+        
     def get_exif_iso(self):
         """Get the iso value an image was taken.
 
         Returns:
             str: the iso value an image was taken.
         """
-        if self.exif_data:
-            return self.exif_data.get("iso", mock_data["iso"])
-        return mock_data["iso"]
-
+        return self.data.get("iso", mock_data["iso"])
+        
     def get_exif_focal_length(self):
         """Get the focal length an image was taken.
 
         Returns:
             str: the focal length an image was taken.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "focal-length", mock_data["focal-length"]
             )
-        return mock_data["focal-length"]
-
+        
     def get_exif_camera_manufacturer(self):
         """Get the manufacturer/brand of the camera.
 
         Returns:
             str: the manufacturer/brand of the camera.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "camera-manufacturer", mock_data["camera-manufacturer"]
             )
-        return mock_data["camera-manufacturer"]
-
+        
     def get_exif_camera_model(self):
         """Get the model or serial number of the camera.
 
         Returns:
             str: the model or serial number of the camera.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "camera-model", mock_data["camera-model"]
             )
-        return mock_data["camera-model"]
-
+        
     def get_exif_fstop(self):
         """Get the aperture an image was taken.
 
         Returns:
             str: the aperture an image was taken.
         """
-        if self.exif_data:
-            return self.exif_data.get("fstop", mock_data["fstop"])
-        return mock_data["fstop"]
-
+        return self.data.get("fstop", mock_data["fstop"])
+        
     def get_exif_flash(self):
         """Indicate if the flash triggered to tak the shot.
 
         Returns:
             str: indicate if the flash triggered..
         """
-        if self.exif_data:
-            return self.exif_data.get("flash", mock_data["flash"])
-        return mock_data["flash"]
-
+        return self.data.get("flash", mock_data["flash"])
+        
     def get_exif_gps_longitude(self):
         """Get the longitude gps position.
 
         Returns:
             str: the longitude gps position.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "gps-longitude", mock_data["gps-longitude"]
             )
-        return mock_data["gps-longitude"]
-
+        
     def get_exif_gps_latitude(self):
         """Get the latitude gps position.
 
         Returns:
             str: the latitude gps position.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "gps-latitude", mock_data["gps-latitude"]
             )
-        return mock_data["gps-latitude"]
-
+        
     def get_exif_gps_altitude(self):
         """Get the altitude gps position.
 
         Returns:
             str: the altitude gps position.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "gps-altitude", mock_data["gps-altitude"]
             )
-        return mock_data["gps-altitude"]
-
+        
     def get_exif_xresolution(self):
         """Get the resolution on x axis of an image.
 
         Returns:
             str: the resolution on x axis of an image.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "x-resolution", mock_data["x-resolution"]
             )
-        return mock_data["x-resolution"]
-
+        
     def get_exif_yresolution(self):
         """Get the resolution on y axis of an image.
 
         Returns:
             str: the resolution on y axis of an image.
         """
-        if self.exif_data:
-            return self.exif_data.get(
+        return self.data.get(
                 "y-resolution", mock_data["y-resolution"]
             )
-        return mock_data["y-resolution"]
-
+        
     def __repr__(self):
         """Display the representation of an instance of this object."""
         return "Image: ID {} - url {} - fstop {}".format(
